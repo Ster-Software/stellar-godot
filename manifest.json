@@ -1,0 +1,27 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "godot",
+  "publisher": "ster-software",
+  "displayName": "Godot",
+  "version": "1.3.0",
+  "description": "Godot-projecten: het spel of één scène starten, exporteren en openen in de Godot-editor.",
+  "repository": "Ster-Software/stellar-godot",
+  "icon": "Godot",
+  "main": "main.mjs",
+  "engines": { "stellar": ">=1.8.20" },
+  "activation": ["onStartup"],
+  "permissions": ["processes", "files"],
+  "activityBar": { "title": "Godot" },
+  "commands": [
+    { "id": "godot.start", "title": "%command.start%", "icon": "Play" },
+    { "id": "godot.openEditor", "title": "%command.openEditor%", "icon": "Godot" },
+    { "id": "godot.runScene", "title": "%command.runScene%", "icon": "Play" }
+  ],
+  "themes": [{ "id": "godot", "label": "Godot", "file": "themes/godot.json" }],
+  "templates": [
+    { "id": "game", "label": "%template.game%", "icon": "Godot", "description": "%template.gameDescription%", "run": "printf 'config_version=5\\n\\n[application]\\n\\nconfig/name=\"%s\"\\n' \"$(basename \"$PWD\")\" > project.godot && mkdir -p scenes scripts" }
+  ],
+  "menus": {
+    "explorer": [{ "command": "godot.runScene", "when": { "extensions": [".tscn"], "folders": false } }]
+  }
+}

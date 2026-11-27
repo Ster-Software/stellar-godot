@@ -7,7 +7,7 @@
   "repository": "Ster-Software/stellar-godot",
   "icon": "Godot",
   "main": "main.mjs",
-  "engines": { "stellar": ">=1.8.21" },
+  "engines": { "stellar": ">=2.0.0" },
   "activation": ["onStartup"],
   "when": {"projectFiles": ["project.godot"]},
   "permissions": ["processes", "files"],

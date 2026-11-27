@@ -4,7 +4,7 @@ import { Icon } from 'stellar/ui';
 
 export default function GodotIcon({ active, hover }) {
   return (
-    <span style={{ display: 'inline-flex', color: active || hover ? 'var(--text)' : 'var(--muted)' }}>
+    <span style={{ display: 'inline-flex', color: active || hover ? 'var(--foreground)' : 'var(--muted-foreground)' }}>
       <Icon name="Godot" size={21} />
     </span>
   );

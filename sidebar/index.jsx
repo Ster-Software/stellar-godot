@@ -7,8 +7,6 @@ import { Button, Icon, IconButton, Section, Sections } from 'stellar/ui';
 import { listedScenes, olderGodot, sceneParts } from '../shared/scenes.js';
 import { ProjectFacts, SceneRows, AutoloadRows, ExportRows, PluginRows } from './parts.jsx';
 
-/** The sidebar fills Stellar's sidebar edge to edge, like the other tabs: no padding, the sections share its height. */
-const FILL = 'html, body, #root { height: 100%; overflow: hidden; } #root { padding: 0; }';
 const SEARCH_FROM = 7;
 const INSTALL_POLL_MS = 3000;
 const IS_MAC = /Mac/.test(navigator.platform);
@@ -34,13 +32,13 @@ function MissingGodot({ onInstall, onInstalled }) {
     return () => clearInterval(timer);
   }, [installing, onInstalled]);
   return (
-    <div className="xc-tip">
-      <Icon name="Godot" size={14} className="xc-tip-icon" />
-      <div className="xc-tip-body">
+    <div className="mt-3 flex gap-[9px] rounded-lg bg-muted px-[11px] py-2.5 text-[12px]">
+      <Icon name="Godot" size={14} className="mt-px shrink-0 text-foreground" />
+      <div className="flex min-w-0 flex-col items-start gap-1 [&_p]:mb-1.5 [&_p]:text-muted-foreground [&_p]:leading-[1.45]">
         <strong>{t('notFound')}</strong>
         <p>{t('lookBefore')} <code>godot</code> {t(IS_MAC ? 'lookAfterMac' : 'lookAfter')}</p>
         {IS_MAC && (
-          <Button variant="primary" onClick={() => { onInstall(); setInstalling(true); }}>
+          <Button variant="default" onClick={() => { onInstall(); setInstalling(true); }}>
             <Icon name="Download" size={12} /> {installing ? t('reinstall') : t('install')}
           </Button>
         )}
@@ -54,24 +52,24 @@ function Header({ info, act, onReload }) {
   const { name, mainScene, godot, icon, running } = info;
   const main = mainScene ? sceneParts(mainScene).name : '';
   return (
-    <div className="xc-head">
-      <div className="py-status">
-        {icon ? <img className="godot-icon" src={icon} alt="" /> : <Icon name="Godot" size={18} />}
+    <div className="shrink-0 p-4">
+      <div className="flex items-center gap-2.5 [&>div]:min-w-0 [&>div]:flex-1">
+        {icon ? <img className="size-8 shrink-0 rounded-[7px] object-cover" src={icon} alt="" /> : <Icon name="Godot" size={18} />}
         <div>
-          <div className="py-status-title">{name}</div>
-          <div className="py-status-sub">{main ? t('mainSceneIs', { name: main }) : t('noMainScene')}</div>
+          <div className="font-semibold">{name}</div>
+          <div className="truncate text-xs text-muted-foreground">{main ? t('mainSceneIs', { name: main }) : t('noMainScene')}</div>
         </div>
         <IconButton size="sm" icon="ExternalLink" title={t('openEditor')} disabled={!godot} onClick={() => act('openEditor', {}, t('editorFailed'))} />
       </div>
       {godot ? (
-        <div className="py-actions godot-actions">
-          <Button variant="primary" title={main ? t('startFrom', { name: main }) : t('startGame')} onClick={() => act('start', {}, t('startFailed'))}>
+        <div className="flex flex-wrap gap-1.5 mt-2.5">
+          <Button variant="default" title={main ? t('startFrom', { name: main }) : t('startGame')} onClick={() => act('start', {}, t('startFailed'))}>
             <Icon name="Play" size={11} /> {t('start')}
           </Button>
-          <Button disabled={!running} onClick={() => act('restart', {}, t('startFailed'))}>
+          <Button variant="outline" disabled={!running} onClick={() => act('restart', {}, t('startFailed'))}>
             <Icon name="RotateCw" size={12} /> {t('restart')}
           </Button>
-          <Button disabled={!running} onClick={() => act('stop', {}, t('stop'))}>
+          <Button variant="outline" disabled={!running} onClick={() => act('stop', {}, t('stop'))}>
             <Icon name="Stop" size={11} /> {t('stop')}
           </Button>
         </div>
@@ -83,7 +81,7 @@ function Header({ info, act, onReload }) {
 function ScenesToolbar({ query, onQuery }) {
   const t = useT();
   return (
-    <div className="dialog-search npm-tab-search">
+    <div className="flex h-9 items-center gap-2.5 rounded-lg border border-input bg-card pr-1.5 pl-3 text-muted-foreground focus-within:border-ring [&>svg]:shrink-0 [&_input]:h-full [&_input]:min-w-0 [&_input]:flex-1 [&_input]:border-0 [&_input]:bg-transparent [&_input]:p-0 [&_input]:text-sm [&_input]:text-foreground h-8">
       <Icon name="Search" size={15} />
       <input value={query} placeholder={t('searchScenes')} spellCheck={false} aria-label={t('searchScenesLabel')} onChange={(e) => onQuery(e.target.value)} />
     </div>
@@ -101,9 +99,9 @@ export default function GodotSidebar() {
   const act = (method, args, title) => extension.call(method, args)
     .catch((e) => extension.call('failed', { title, message: e.message }).catch(() => {}));
 
-  if (info.error && !info.data) return <div className="side-empty">{info.error.includes('project') ? t('openProject') : t('loadError')}</div>;
+  if (info.error && !info.data) return <div className="p-4 text-center text-muted-foreground">{info.error.includes('project') ? t('openProject') : t('loadError')}</div>;
   if (!info.data) return null;
-  if (!info.data.exists) return <div className="side-empty">{t('none')}</div>;
+  if (!info.data.exists) return <div className="p-4 text-center text-muted-foreground">{t('none')}</div>;
 
   const data = info.data;
   const scenes = data.scenes || [];
@@ -114,8 +112,7 @@ export default function GodotSidebar() {
   const exportPreset = (preset) => act('export', { preset }, t('exportTitle', { name: preset.name }));
 
   return (
-    <div className="xc-view" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <style>{FILL}</style>
+    <div className="flex min-h-0 flex-1 flex-col" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <Header info={data} act={act} onReload={info.reload} />
       <Sections id="godot">
         <Section id="project" title={t('project')} fit>

@@ -14,7 +14,7 @@ Open een map met `project.godot`. Het Godot-icoon verschijnt in de activiteitenb
 
 Klik met rechts op een `.tscn`-bestand om die scène te starten. In het commandopalet staan **Godot: spel starten**, **Godot: openen in de editor** en **Godot: deze scène starten**.
 
-Bij **Nieuw project** staat het sjabloon **Godot-spel**. Onder **Instellingen → Thema** staat een Godot-kleurthema bij de extensiethema's.
+Bij **Nieuw project** staat het sjabloon **Godot-spel**.
 
 ## Vereisten en toegang
 

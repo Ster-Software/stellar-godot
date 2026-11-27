@@ -10,6 +10,7 @@
   "main": "main.mjs",
   "engines": { "stellar": ">=1.8.20" },
   "activation": ["onStartup"],
+  "when": {"projectFiles": ["project.godot"]},
   "permissions": ["processes", "files"],
   "activityBar": { "title": "Godot" },
   "commands": [
